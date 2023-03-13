@@ -4,134 +4,88 @@
 
 
 <ins>Part 1: Researching Terminal Commands</ins>
-<br> In Lab Report 3, I researched certain options that were useful for the ```find``` command in the terminal. In this lab, I will be doing something similar with the ```curl``` command. The most basic syntax for the command in the terminal is ```curl [url]```, which allows the user to read the HTML contents of the url passed in. The first command-line option gives the user a range of port numbers to form the connection with. As an example, we consider the terminal input
-
-
-
-
-
-In this lab report, I will be showcasing some examples of how we can use the ```find``` command in the terminal. The first command-line option helps showcase all the empty files or subdirectories in a particular directory. As an example, we consider the terminal input
+<br> In Lab Report 3, I researched certain options that were useful for the ```find``` command in the terminal. In this lab, I will be doing something similar with the ```grep``` command. The first command-line option helps the user find the first ```NUM``` occurrences of a particular ```"pattern"```. To do this, we use the option ```-m NUM "pattern"```, where ```NUM``` references the number of occurrences found before which bash will stop running and ```"pattern"``` references the pattern to be looked for. Consider the terminal input
 ```
-find .written_2/travel_guides/berlitz1/ -empty
+grep -m 2 "Persian Wars"  travel_guides/berlitz2/Athens-History.txt
 ```
-and the produced output, which, in this case, happens to be nothing. This is because there are no empty files in the ```berlitz1``` directory. The way the ```find <path> -empty``` command works is it goes through the specified ```<path>``` and looks for any files or directories that are empty, or have no content in them. Then, the empty files or directories are printed in the terminal. Below is a photo of this output:
+and its produced output
+```
+The Persian Wars
+At the end of the fifth century b.c., Greece entered the period of the Persian Wars, as recorded in Herodotus’ great narrative 
+history of the ancient world (see page 33).
+```
+As we can see, the option in ```bash``` gave us the first two instances of the phrase "Persian Wars" before stoppping. We try the same option with a slightly different, more-common pattern:
+```
+grep -m 6 "century"  travel_guides/berlitz2/Athens-History.txt
+```
+and its produced output
 <br><p align="center">
-    <img width="800" alt="image" src="https://user-images.githubusercontent.com/122565720/218635583-70d7c309-bb5e-47fa-a041-89f31277a8b3.png">
+    <img width="850" alt="image" src="https://user-images.githubusercontent.com/122565720/224630703-215725ad-edc8-40fa-b650-4117f87948c0.png">
     </p>
-<br> Another terminal input might be
+There are more instances of the word "century" than there is of the phrase "Persian Wars", and ```bash``` stopped searching after it found the first six instances of the work. This command would be useful for those who might be unsure about a particular key phrase or definition in a long paper or file, and would like to see the first few times it comes up as a reference for the rest of the paper or file. (In this example, the output is too long and too involved for it to be efficient and sensible for me to write it out entirely.) I found this command-line option at [this webpage](https://linuxcommand.org/lc3_man_pages/grep1.html).
+
+<br> Another terminal input would allow the user to find all instances of a particular word without worrying about lower- or upper-case sensitive letters. Using the option ```-i```, consider the following terminal input
 ```
-find .written_2/ -empty
+grep -i "biology" non-fiction/OUP/Kauffman/ch1.txt
 ```
-to find all of the empty files or subdirectories in the ```.written_2/``` directory, which, like the example above, produces no files as the output. (See the output below:)
+and its produced output
 <br><p align="center">
-    <img width="750" alt="image" src="https://user-images.githubusercontent.com/122565720/218635742-0ab2e3ad-081b-4982-aa31-e59a1fbddd50.png">
+    <img width="900" alt="image" src="https://user-images.githubusercontent.com/122565720/224622122-0cfb2286-81c1-407d-9bc7-c8353c0efab9.png">
     </p>
-This option is useful because we could clean up large directories by throwing out empty files or directories. Having a simple and quick way of finding all of those empty elements makes it easy to know which elements we might want to remove from a particular path or directory and which we might want to keep. I used the following link for this command-line option: [this webpage](https://www.geeksforgeeks.org/find-command-in-linux-with-examples/).
-
-<br> Another command-line option will help determine what kind of files exist in particular directories. To do this, we use the ```type``` command. Consider the terminal input 
+<br> (I had to cut the output short in the screenshot; the entier output would have simply been too long to include in this lab report.) The case-insensitivity, shall we call it that, is evident given that line 1 of the output reads "Prolegomenon to a General *Biology*" and then the next line reads "[L]ecturing in Dublin, one of the twentieth century’s most famous physicists set the stage of contemporary *biology* during..." Again, this command is useful for those who need to parse through large files and who are looking for particular words or phrases. A second such example for the option ```-i``` is
 ```
-find .written_2/travel_guides -type f
+grep -i "age" travel_guides/berlitz2/Athens-History.txt
 ```
-and the produced output includes all of the files in that particular directory. (Because the output is very long and contains very many files, the output below contains only the first few files that are printed.)
-```
-./travel_guides/berlitz1/HandRLasVegas.txt
-./travel_guides/berlitz1/HistoryJapan.txt
-./travel_guides/berlitz1/IntroMalaysia.txt
-./travel_guides/berlitz1/HandRIstanbul.txt
-./travel_guides/berlitz1/HistoryJamaica.txt
-./travel_guides/berlitz1/HandRJamaica.txt
-./travel_guides/berlitz1/HandRHongKong.txt
-./travel_guides/berlitz1/HistoryEgypt.txt
-./travel_guides/berlitz1/IntroEdinburgh.txt 
-...
-```
-A second example is applying the command on the ```written_2``` directory; the input is
-```
-find .written_2 -type d
-```
-and the output is 
-```
-./
-./non-fiction
-./non-fiction/OUP
-./non-fiction/OUP/Berk
-./non-fiction/OUP/Abernathy
-./non-fiction/OUP/Rybczynski
-./non-fiction/OUP/Kauffman
-./non-fiction/OUP/Fletcher
-./non-fiction/OUP/Castro
-./travel_guides
-./travel_guides/berlitz1
-./travel_guides/berlitz2
-```
-The command ```find <path> -type f``` looks for all of the elements in a specified ```<path>``` and the ```f``` part of the command tells ```bash``` to look for elements that are files. Hence, in the first example, we did not see the subdirectories ```non-fiction``` and ```travel_guides``` appear, as they are directories and not files. In the second example, when we did specify ```d```, ```bash``` looked for all elements that were directories. This option would be useful if we were dealing with large directories and we wanted to identify all of the particular elements that were files, let's say, in order to better understand the larger directory we were searching within. As with ```find <path> -empty```, I used [this webpage](https://www.geeksforgeeks.org/find-command-in-linux-with-examples/) as a source for this command-line option. 
-
-<br> Another interesting and useful command-line option allows the user to see which elements have been in a particular directory for more than a certain period of time. To find these elements, we use the option ```-mtime +/-n```, where ```n``` is a particular number of days. Consider the input
-```
-find ./non-fiction/OUP/Abernathy -mtime +10
-```
-and the produced output 
-```
-./non-fiction/OUP/Abernathy
-./non-fiction/OUP/Abernathy/ch2.txt
-./non-fiction/OUP/Abernathy/ch3.txt
-./non-fiction/OUP/Abernathy/ch1.txt
-./non-fiction/OUP/Abernathy/ch7.txt
-./non-fiction/OUP/Abernathy/ch6.txt
-./non-fiction/OUP/Abernathy/ch8.txt
-./non-fiction/OUP/Abernathy/ch9.txt
-./non-fiction/OUP/Abernathy/ch15.txt
-./non-fiction/OUP/Abernathy/ch14.txt
-```
-Now consider the input 
-```
-find ./non-fiction/OUP/Abernathy -mtime -10
-```
-and the produced output, which happens to be nothing. (Below is a photo that shows this result, alongside the result from the first example, which provides some context for what the option might be doing .)
-<p align="center">
-    <img width="750" alt="image" src="https://user-images.githubusercontent.com/122565720/218635854-4dcc623f-7d7d-490b-91d7-33014d2bc32a.png">
+and one section of its resulting output is
+<br><p align="center">
+   <img width="850" alt="image" src="https://user-images.githubusercontent.com/122565720/224645713-09a10d4c-97d2-4a18-9276-d31020818e64.png">
     </p>
+This terminal command finds all of the instances of "age"; the output included lines such as "The Golden Age" and "This age, in fact, ...", demonstrating that string was found on a non-case sensitive basis. (In both this example and the previous one, the outputs were too long and too involved for it to be efficient and sensible for me to write out the entire output. I specifically picked examples where the output was longer so that I could more easily show a wider range of results that might appear with the ```-i``` option.) The resource I used to find this option was [this webpage](https://www.geeksforgeeks.org/grep-command-in-unixlinux/).
 
-These two, nearly identical examples beg the question of what change the sign makes before the ```n``` term in the option. The command ```find <path> -mtime +n``` looks for all elements in the specified ```<path>``` that *have not* been modified in the last ```n``` days. Then, it would make sense that ```find <path> -mtime -n``` looks for all elements in the specified ```<path>``` that *have* been modified in the last ```n``` days. And, indeed, this is the case. In the two examples above, the number of days happened to be 10, but this was an arbitrary number. This option is particularly useful because it gives the user a timeframe for all of the elements in a particular directory without having to explicitly look at the file structure or specific file/directory information. I used the following link for this command-line option: [this webpage](https://www.redhat.com/sysadmin/linux-find-command).
+<br> Another terminal command would allow us to search for and print certain lines from a file. To do this, we use a special set of options that are of the form ```-A/B/C[num] "pattern"```, where the option ```-A[num]``` tells bash to print out the ```num``` number of lines *after* the particular ```"pattern"``` is found in the file, ```-B[num]``` tells bash to print ouf the ```num``` number of lines *before* the particular ```"pattern"``` is found, and ```-C[num]``` tells bash to print the ```num``` number of lines *before and after* the ```"pattern"``` is found. Consider the following terminal input
+```
+grep -A2 "my West Side of San Antonio" non-fiction/OUP/Castro/chB.txt
+```
+and its produced output
+```
+my West Side of San Antonio
+my Quinto of Houston
+my Jackson of San Jose
+```
+A second example with this option might be
+``` 
+grep -C2 "D’el cielo venimos" non-fiction/OUP/Castro/chO.txt
+```
+and its produced output
+```
+Oremos, Oremos
+Angelitos somos
+D’el cielo venimos
+A pedir Oremos
+Si no nos dan,
+```
+In this example, we found the 2 lines preceeding and following our given pattern "D'el cielo venimos". This option might be relevant for people who want to review the context around a particular line or phrase in a larger file or document. I found information about this option [here](https://linuxcommand.org/lc3_man_pages/grep1.html). 
 
-<br> Another helpful command-line option for the ```find``` command allows the user to see files or directories that are of a particular size using the option ```-size +/-n```, where ```n``` is the particular size. The option ```size``` comes with a couple of suffixes for ```n```: ```c``` refers to bytes, ```k``` refers to kilobytes, ```M``` refers to megabytes, and ```G``` refers to gigabytes. Consider the input
+<br> Another helpful command-line option for the ```grep``` command is ```-n```, which allows users to identify all of the file and line numbers in which a particular pattern appears. For example, we consider the terminal input
 ```
-find ./non-fiction/OUP/Fletcher -size -1M
+grep -n "adaptable" non-fiction/OUP/Berk/*
+``` 
+which looks for the pattern "adaptable" in all of Berk's chapters. Its resulting output is
 ```
-and the produced output
+non-fiction/OUP/Berk/ch1.txt:133:During early childhood, the brain is highly plastic, or adaptable, in that many brain regions are not yet committed to speciﬁc functions. 
+This means that if a part of the brain is damaged, other parts can usually take over the tasks that would have been handled by the damaged region, provided they are granted the necessary stimulation. 
+In a study of preschool children with a wide variety of brain injuries sustained in the ﬁrst year of life, psychologist Joan Stiles found that cognitive deﬁcits were milder than those observed in brain-injured adults. 
+And by age 5, virtually all impairments had disappeared!  As the children gained perceptual, cognitive, and motor experiences, stimulated intact areas of the cerebral cortex compensated for the early damage.59 
+By age 8 to 10, most brain regions have taken on speciﬁc functions, so brain plasticity declines.  Because of rapid brain growth and gradual decline in brain plasticity, the ﬁrst 5 to 8 years of life are regarded 
+as a sensitive phase of development in which appropriate stimulation is necessary for children to reach their full genetic potential.
 ```
-./non-fiction/OUP/Fletcher
-./non-fiction/OUP/Fletcher/ch2.txt
-./non-fiction/OUP/Fletcher/ch1.txt
-./non-fiction/OUP/Fletcher/ch5.txt
-./non-fiction/OUP/Fletcher/ch6.txt
-./non-fiction/OUP/Fletcher/ch9.txt
-./non-fiction/OUP/Fletcher/ch10.txt
+which includes the file number, the line number, and the actual line itself (the line in which the particular ```pattern``` appears). (As was the case in the first example in the lab report, I have somewhat reformatted the output to make it easier to read and to follow on the webpage on which it will appear.) Now consider the following other example:
 ```
-In this example, ```bash``` is looking for all of the files in the ```Fletcher``` directory that are less than one megabyte in size. It happens to be the case that all of the text files in the particular directory are less than one megabyte. Consider the following input
+grep -n "dimensionality" non-fiction/OUP/Kauffman/ch9.txt
 ```
-find . -size +80k
-```
-and the produced output
-```
-./non-fiction/OUP/Berk/ch2.txt
-./non-fiction/OUP/Berk/ch1.txt
-./non-fiction/OUP/Berk/CH4.txt
-./non-fiction/OUP/Kauffman/ch8.txt
-./non-fiction/OUP/Kauffman/ch9.txt
-./travel_guides/berlitz1/WhereToLakeDistrict.txt
-./travel_guides/berlitz1/WhereToIndia.txt
-./travel_guides/berlitz1/WhereToItaly.txt
-./travel_guides/berlitz1/WhereToMalaysia.txt
-./travel_guides/berlitz1/WhereToJapan.txt
-./travel_guides/berlitz1/WhereToEgypt.txt
-./travel_guides/berlitz1/WhereToIsrael.txt
-./travel_guides/berlitz1/WhereToFrance.txt
-./travel_guides/berlitz1/WhereToDublin.txt
-./travel_guides/berlitz1/WhatToJamaica.txt
-./travel_guides/berlitz1/WhereToIstanbul.txt
-./travel_guides/berlitz2/Portugal-WhereToGo.txt
-./travel_guides/berlitz2/Canada-WhereToGo.txt
-./travel_guides/berlitz2/China-WhereToGo.txt
-```
-This input told ```bash``` to find all of the files in the ```written_2``` directory that were greater than 80 kilobytes in size. The ```-``` sign before the size in the first example told ```bash``` to look for files that were smaller than the specified size. In the previous example, the ```+``` sign told ```bash``` to look for files that were larger than the specified size. The ```find <path> -size +/-n``` can be useful for cleaning up directories because it gives the user a way of identifying larger, more storage-costly files without knowing many of the structural details of a particular ```<path>``` (and its sub-paths). If the user wants to create some storage space, using this option would allow them to easily find which files happen to be taking up more space in particular directories. I used the following link for this command-line option: [this webpage](https://linuxize.com/post/how-to-find-files-in-linux-using-the-command-line/).
+whose output is
+<br><p align="center">
+    <img width="850" alt="image" src="https://user-images.githubusercontent.com/122565720/224659209-8428c64a-d780-445b-baca-3c04ca321583.png">
+    </p>
+Unlike the previous example, here we have specified a file in which we search for the desired ```"pattern"```. Thus, the option ```-n``` simply tells us which line the pattern appears in and what the line actually is. This would certainly be useful because it provides some more detail and context as to where the particular ```"pattern"``` appears in a file or in a collection of files. If we compare the output of ```grep -n "dimensionality" non-fiction/OUP/Kauffman/ch9.txt``` with the output of ```grep "dimensionality" non-fiction/OUP/Kauffman/ch9.txt```, we see that the output of the latter just contains the lines of the file that contain "dimensionality" whereas the output of the former also tells the user where to find that line through line numbers. This would certainly be useful to parse through large files and have a record of where particular patterns appeared in those files; the line numbers are obviously beneficial given that they give the user a marker or context as to where the desired ```"pattern"``` appears. I looked [here](https://linuxcommand.org/lc3_man_pages/grep1.html) for a general description of this option.  
+
